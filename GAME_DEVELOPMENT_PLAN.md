@@ -14,7 +14,9 @@
 - **Movement System implemented with blackboard integration.** ✅
 - **Map System implemented with JSON-based obstacle loading.** ✅
 - **Game is fully runnable with all basic features working.** ✅
-- **Physics System temporarily disabled pending Box2D 3.x API integration.** ⚠️
+- **Physics System fully operational with Box2D 3.x integration.** ✅
+- **Collision Detection: Bullet-obstacle collisions with impulse-based movement.** ✅
+- **Boundary Collision: Obstacles bounce off walls with velocity dampening.** ✅
 
 ---
 
@@ -233,13 +235,15 @@
 16. **Map System**: JSON-based map loading with 5 destructible obstacles
 17. **Game Loop**: Fully functional game loop with proper event handling
 18. **Entity Management**: Dynamic entity creation and removal working correctly
+19. **Physics System**: Box2D 3.x integration with collision detection and response
+20. **Bullet-Obstacle Collisions**: Bullets apply impulse force to obstacles on impact
+21. **Boundary Collisions**: Obstacles bounce off screen boundaries with velocity dampening
 
 ### 🚧 Known Issues
 
-- **Physics System**: Box2D 3.x integration temporarily disabled due to API changes. Box2D 3.x uses a C-style functional API instead of the C++ OOP API used in 2.x versions.
 - **Visual Graphics**: Currently using colored rectangles instead of sprites/textures
-- **No Collision Detection**: Without physics system, bullets pass through obstacles
-- **Limited Interactions**: Obstacles are static and don't respond to bullets yet
+- **No Destructible Obstacles**: Obstacles don't break apart when hit (physics response only)
+- **Limited Visual Feedback**: No particle effects for collisions or impacts
 
 ### 🎮 Current Controls
 
@@ -256,6 +260,8 @@
 - **Debuggable**: Comprehensive logging system with blackboard tracing
 - **Decoupled**: Systems communicate via blackboard, not direct references
 - **Future-Ready**: Blackboard system ready for physics events, AI, and complex game logic
+- **Physics-Enabled**: Full collision detection and response with Box2D 3.x integration
+- **Boundary Management**: Obstacles are contained within screen bounds with realistic bouncing
 
 ---
 
@@ -275,17 +281,20 @@
 
 ## Next Priority
 
-The next logical step would be **Physics System** integration with Box2D 3.x API. The physics system needs to be rewritten to use the new C-style functional API instead of the C++ OOP API. Once complete, this would enable:
+The next logical step would be **Enhanced Visual Feedback** and **Asset Management**. With the physics system now fully operational, the game would benefit from:
 
-1. Bullet-obstacle collision detection
-2. Destructible obstacles that respond to bullet impacts
-3. Proper physics simulation for moving objects
-4. Collision events communicated via blackboard system
+1. **Visual Polish**: Replace colored rectangles with proper sprites and textures
+2. **Particle Effects**: Add visual effects for bullet impacts and obstacle bouncing
+3. **Destructible Obstacles**: Make obstacles break apart when hit enough times
+4. **Sound Effects**: Add audio feedback for collisions and impacts
 
 Alternative priorities:
-- **Asset Management**: Replace colored rectangles with proper sprites and textures
+
 - **Enhanced Gameplay**: Add enemies, health systems, and scoring
-- **Visual Polish**: Add particle effects, animations, and UI elements
+- **UI System**: Add menus, HUD, and game state management
+- **Performance Optimization**: Optimize rendering and physics calculations
+
+The physics foundation is now solid and ready for advanced gameplay features.
 
 - [x] Initialize C++ project with CMake.
 - [x] Integrate SDL3 and Box2D (add to `third_party/`).

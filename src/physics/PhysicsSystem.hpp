@@ -34,11 +34,13 @@ private:
     void syncPhysicsToECS();
     void syncECSToPhysics();
     void handleCollisions();
+    void handleBoundaryCollisions();
 
     // Helper functions
     b2Vec2 pixelsToMeters(float pixelX, float pixelY);
     void metersToPixels(const b2Vec2 &meters, float &pixelX, float &pixelY);
     void handleBulletObstacleCollision(Entity bullet, Entity obstacle);
+    void handleObstacleBoundaryCollision(Entity obstacle);
 
     // Box2D 3.x doesn't use contact listeners, use collision events instead
     void processCollisionEvents();

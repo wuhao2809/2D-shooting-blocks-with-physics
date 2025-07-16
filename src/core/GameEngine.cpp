@@ -64,11 +64,11 @@ bool GameEngine::initialize()
 
     // Create map entities
     mapSystem->createMapEntities();
-    
+
     // Register all obstacle entities with physics system
     for (Entity entity : manager.getAllEntities())
     {
-        if (getComponent<Position>(entity) && getComponent<Renderable>(entity) && 
+        if (getComponent<Position>(entity) && getComponent<Renderable>(entity) &&
             getComponent<Velocity>(entity) && !getComponent<Input>(entity))
         {
             physicsSystem->addEntity(entity);

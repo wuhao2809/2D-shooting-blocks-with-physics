@@ -97,28 +97,28 @@ void MapSystem::createMapEntities()
 void MapSystem::createObstacle(float x, float y, float width, float height, int r, int g, int b)
 {
     Entity obstacle = manager->createEntity();
-    
+
     // Add Position component
     Position pos;
     pos.x = x;
     pos.y = y;
     addComponent(obstacle, pos);
-    
+
     // Add Renderable component
     Renderable renderable;
     renderable.width = width;
     renderable.height = height;
-    renderable.color = "brown";  // Use string color for now
+    renderable.color = "brown"; // Use string color for now
     addComponent(obstacle, renderable);
-    
+
     // Add Velocity component for physics
     Velocity vel;
     vel.x = 0.0f;
     vel.y = 0.0f;
     addComponent(obstacle, vel);
-    
+
     obstacleEntities.push_back(obstacle);
     entities.push_back(obstacle);
-    
+
     std::cout << "[MapSystem] Created obstacle entity " << obstacle << " at (" << x << ", " << y << ")" << std::endl;
 }

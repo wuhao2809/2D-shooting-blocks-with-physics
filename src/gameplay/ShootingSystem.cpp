@@ -168,7 +168,7 @@ Entity ShootingSystem::createBullet(const Position &startPos, const Direction &d
 
     // Add bullet to this system's entity list so it gets updated
     entities.push_back(bullet);
-    
+
     // Notify physics system about new bullet entity via blackboard
     if (blackboard)
     {

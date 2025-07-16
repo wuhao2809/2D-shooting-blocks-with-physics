@@ -11,7 +11,7 @@ PhysicsSystem::PhysicsSystem(Manager *mgr) : manager(mgr)
     b2WorldDef worldDef = b2DefaultWorldDef();
     worldDef.gravity = (b2Vec2){0.0f, 0.0f}; // No gravity for top-down shooter
     worldId = b2CreateWorld(&worldDef);
-    
+
     std::cout << "[PhysicsSystem] Initialized with Box2D 3.x" << std::endl;
 }
 
@@ -27,33 +27,36 @@ void PhysicsSystem::update(float dt)
 {
     if (!b2World_IsValid(worldId))
         return;
-    
+
     // Check for new entity requests from blackboard
-    if (blackboard && blackboard->has("physics_new_entity_request") && 
+    if (blackboard && blackboard->has("physics_new_entity_request") &&
         blackboard->getValue<bool>("physics_new_entity_request"))
     {
         Entity entity = blackboard->getValue<Entity>("physics_new_entity");
         addEntity(entity);
         blackboard->setValue("physics_new_entity_request", false);
     }
-    
+
     // Sync ECS data to physics world
     syncECSToPhysics();
-        
+
     // Step the physics world
     b2World_Step(worldId, dt, 4);
-    
+
     // Sync physics back to ECS
     syncPhysicsToECS();
-    
+
     // Handle collisions
     handleCollisions();
+
+    // Handle boundary collisions for obstacles
+    handleBoundaryCollisions();
 }
 
 void PhysicsSystem::addEntity(Entity entity)
 {
     entities.push_back(entity);
-    
+
     // Check what type of entity this is and create appropriate body
     if (getComponent<Input>(entity))
     {
@@ -79,7 +82,7 @@ void PhysicsSystem::removeEntity(Entity entity)
     {
         entities.erase(it);
     }
-    
+
     // Remove physics body if it exists
     auto bodyIt = entityBodies.find(entity);
     if (bodyIt != entityBodies.end())
@@ -112,7 +115,7 @@ void PhysicsSystem::createPlayerBody(Entity entity)
     b2CreatePolygonShape(bodyId, &shapeDef, &box);
 
     entityBodies[entity] = bodyId;
-    
+
     std::cout << "[PhysicsSystem] Created player body for entity " << entity << std::endl;
 }
 
@@ -138,7 +141,7 @@ void PhysicsSystem::createBulletBody(Entity entity)
     b2CreateCircleShape(bodyId, &shapeDef, &circle);
 
     entityBodies[entity] = bodyId;
-    
+
     std::cout << "[PhysicsSystem] Created bullet body for entity " << entity << std::endl;
 }
 
@@ -158,15 +161,14 @@ void PhysicsSystem::createObstacleBody(Entity entity)
     // Create box shape for obstacle
     b2Polygon box = b2MakeBox(
         renderable->width * 0.5f * METERS_PER_PIXEL,
-        renderable->height * 0.5f * METERS_PER_PIXEL
-    );
+        renderable->height * 0.5f * METERS_PER_PIXEL);
     b2ShapeDef shapeDef = b2DefaultShapeDef();
     shapeDef.density = 2.0f;
 
     b2CreatePolygonShape(bodyId, &shapeDef, &box);
 
     entityBodies[entity] = bodyId;
-    
+
     std::cout << "[PhysicsSystem] Created obstacle body for entity " << entity << std::endl;
 }
 
@@ -231,28 +233,28 @@ void PhysicsSystem::handleCollisions()
     {
         if (!getComponent<Bullet>(bullet))
             continue;
-            
+
         Position *bulletPos = getComponent<Position>(bullet);
         if (!bulletPos)
             continue;
-            
+
         for (Entity obstacle : entities)
         {
-            if (bullet == obstacle || 
-                getComponent<Bullet>(obstacle) || 
+            if (bullet == obstacle ||
+                getComponent<Bullet>(obstacle) ||
                 getComponent<Input>(obstacle))
                 continue;
-                
+
             Position *obstaclePos = getComponent<Position>(obstacle);
             Renderable *obstacleRend = getComponent<Renderable>(obstacle);
-            
+
             if (!obstaclePos || !obstacleRend)
                 continue;
-                
+
             // Simple bounding box collision check
             float dx = bulletPos->x - obstaclePos->x;
             float dy = bulletPos->y - obstaclePos->y;
-            
+
             if (abs(dx) < obstacleRend->width / 2 && abs(dy) < obstacleRend->height / 2)
             {
                 handleBulletObstacleCollision(bullet, obstacle);
@@ -280,7 +282,7 @@ void PhysicsSystem::handleBulletObstacleCollision(Entity bullet, Entity obstacle
             }
         }
     }
-    
+
     // Post collision event to blackboard
     if (blackboard)
     {
@@ -288,8 +290,95 @@ void PhysicsSystem::handleBulletObstacleCollision(Entity bullet, Entity obstacle
         blackboard->setValue("collision_bullet", bullet);
         blackboard->setValue("collision_obstacle", obstacle);
     }
-    
+
     std::cout << "[PhysicsSystem] Bullet " << bullet << " hit obstacle " << obstacle << std::endl;
+}
+
+void PhysicsSystem::handleBoundaryCollisions()
+{
+    // Check all obstacles for boundary collisions
+    for (Entity entity : entities)
+    {
+        // Skip bullets and player
+        if (getComponent<Bullet>(entity) || getComponent<Input>(entity))
+            continue;
+
+        // Only check obstacles (entities with Position, Renderable, and Velocity)
+        Position *pos = getComponent<Position>(entity);
+        Renderable *renderable = getComponent<Renderable>(entity);
+        Velocity *vel = getComponent<Velocity>(entity);
+
+        if (!pos || !renderable || !vel)
+            continue;
+
+        handleObstacleBoundaryCollision(entity);
+    }
+}
+
+void PhysicsSystem::handleObstacleBoundaryCollision(Entity obstacle)
+{
+    Position *pos = getComponent<Position>(obstacle);
+    Renderable *renderable = getComponent<Renderable>(obstacle);
+    Velocity *vel = getComponent<Velocity>(obstacle);
+
+    if (!pos || !renderable || !vel)
+        return;
+
+    // Calculate boundary positions considering obstacle size
+    float halfWidth = renderable->width / 2.0f;
+    float halfHeight = renderable->height / 2.0f;
+
+    float leftBoundary = halfWidth;
+    float rightBoundary = 800 - halfWidth; // WINDOW_WIDTH = 800
+    float topBoundary = halfHeight;
+    float bottomBoundary = 600 - halfHeight; // WINDOW_HEIGHT = 600
+
+    bool bounced = false;
+
+    // Check left and right boundaries
+    if (pos->x <= leftBoundary && vel->x < 0)
+    {
+        vel->x = -vel->x;      // Reverse horizontal velocity
+        pos->x = leftBoundary; // Keep obstacle within bounds
+        bounced = true;
+    }
+    else if (pos->x >= rightBoundary && vel->x > 0)
+    {
+        vel->x = -vel->x;       // Reverse horizontal velocity
+        pos->x = rightBoundary; // Keep obstacle within bounds
+        bounced = true;
+    }
+
+    // Check top and bottom boundaries
+    if (pos->y <= topBoundary && vel->y < 0)
+    {
+        vel->y = -vel->y;     // Reverse vertical velocity
+        pos->y = topBoundary; // Keep obstacle within bounds
+        bounced = true;
+    }
+    else if (pos->y >= bottomBoundary && vel->y > 0)
+    {
+        vel->y = -vel->y;        // Reverse vertical velocity
+        pos->y = bottomBoundary; // Keep obstacle within bounds
+        bounced = true;
+    }
+
+    // Apply damping to prevent infinite bouncing
+    if (bounced)
+    {
+        float dampingFactor = 0.8f; // Reduce velocity by 20% on bounce
+        vel->x *= dampingFactor;
+        vel->y *= dampingFactor;
+
+        // Post boundary collision event to blackboard
+        if (blackboard)
+        {
+            blackboard->setValue("boundary_collision_event", true);
+            blackboard->setValue("boundary_collision_entity", obstacle);
+        }
+
+        std::cout << "[PhysicsSystem] Obstacle " << obstacle << " bounced off boundary" << std::endl;
+    }
 }
 
 void PhysicsSystem::processCollisionEvents()
