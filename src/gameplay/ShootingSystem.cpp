@@ -168,6 +168,13 @@ Entity ShootingSystem::createBullet(const Position &startPos, const Direction &d
 
     // Add bullet to this system's entity list so it gets updated
     entities.push_back(bullet);
+    
+    // Notify physics system about new bullet entity via blackboard
+    if (blackboard)
+    {
+        blackboard->setValue("physics_new_entity", bullet);
+        blackboard->setValue("physics_new_entity_request", true);
+    }
 
     std::cout << "[ShootingSystem] Created bullet with velocity (" << vel.x << ", " << vel.y << ")" << std::endl;
 

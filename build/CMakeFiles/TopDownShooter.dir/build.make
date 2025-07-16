@@ -170,10 +170,24 @@ CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/gameplay/ShootingSystem.cpp -o CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.s
 
+CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o: CMakeFiles/TopDownShooter.dir/flags.make
+CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o: /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/physics/PhysicsSystem.cpp
+CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o: CMakeFiles/TopDownShooter.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o -MF CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o.d -o CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o -c /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/physics/PhysicsSystem.cpp
+
+CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/physics/PhysicsSystem.cpp > CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.i
+
+CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/physics/PhysicsSystem.cpp -o CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.s
+
 CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o: CMakeFiles/TopDownShooter.dir/flags.make
 CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o: /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/map/MapSystem.cpp
 CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o: CMakeFiles/TopDownShooter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o -MF CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o.d -o CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o -c /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/map/MapSystem.cpp
 
 CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.s: cmake_force
 CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o: CMakeFiles/TopDownShooter.dir/flags.make
 CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o: /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/Renderer.cpp
 CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o: CMakeFiles/TopDownShooter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o -MF CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o.d -o CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o -c /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/Renderer.cpp
 
 CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.i: cmake_force
@@ -201,7 +215,7 @@ CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.s: cmake_force
 CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o: CMakeFiles/TopDownShooter.dir/flags.make
 CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o: /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/RenderingSystem.cpp
 CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o: CMakeFiles/TopDownShooter.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o -MF CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o.d -o CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o -c /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/RenderingSystem.cpp
 
 CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.i: cmake_force
@@ -221,6 +235,7 @@ TopDownShooter_OBJECTS = \
 "CMakeFiles/TopDownShooter.dir/src/input/InputSystem.cpp.o" \
 "CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.o" \
 "CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.o" \
+"CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o" \
 "CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o" \
 "CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o" \
 "CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o"
@@ -235,6 +250,7 @@ TopDownShooter: CMakeFiles/TopDownShooter.dir/src/core/GameEngine.cpp.o
 TopDownShooter: CMakeFiles/TopDownShooter.dir/src/input/InputSystem.cpp.o
 TopDownShooter: CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.o
 TopDownShooter: CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.o
+TopDownShooter: CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o
 TopDownShooter: CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o
 TopDownShooter: CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o
 TopDownShooter: CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o
@@ -242,7 +258,7 @@ TopDownShooter: CMakeFiles/TopDownShooter.dir/build.make
 TopDownShooter: /opt/homebrew/lib/libSDL3.0.dylib
 TopDownShooter: /opt/homebrew/lib/libbox2d.3.1.1.dylib
 TopDownShooter: CMakeFiles/TopDownShooter.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable TopDownShooter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable TopDownShooter"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TopDownShooter.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

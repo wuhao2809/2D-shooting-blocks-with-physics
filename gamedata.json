@@ -7,7 +7,8 @@
         "Input": { "controllable": true },
         "Renderable": { "color": "blue", "width": 32, "height": 32, "showDirection": true },
         "Direction": { "angle": 0.0 },
-        "Shooter": { "fireRate": 2.0, "lastShotTime": 0.0, "canShoot": true }
+        "Shooter": { "fireRate": 2.0, "lastShotTime": 0.0, "canShoot": true },
+        "Velocity": { "x": 0.0, "y": 0.0 }
       }
     }
   ]

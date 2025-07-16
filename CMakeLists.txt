@@ -24,7 +24,7 @@ add_executable(TopDownShooter
     src/input/InputSystem.cpp
     src/movement/MovementSystem.cpp
     src/gameplay/ShootingSystem.cpp
-    # src/physics/PhysicsSystem.cpp  # Temporarily disabled
+    src/physics/PhysicsSystem.cpp
     src/map/MapSystem.cpp
     src/rendering/Renderer.cpp
     src/rendering/RenderingSystem.cpp

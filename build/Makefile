@@ -321,6 +321,30 @@ src/movement/MovementSystem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.s
 .PHONY : src/movement/MovementSystem.cpp.s
 
+src/physics/PhysicsSystem.o: src/physics/PhysicsSystem.cpp.o
+.PHONY : src/physics/PhysicsSystem.o
+
+# target to build an object file
+src/physics/PhysicsSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o
+.PHONY : src/physics/PhysicsSystem.cpp.o
+
+src/physics/PhysicsSystem.i: src/physics/PhysicsSystem.cpp.i
+.PHONY : src/physics/PhysicsSystem.i
+
+# target to preprocess a source file
+src/physics/PhysicsSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.i
+.PHONY : src/physics/PhysicsSystem.cpp.i
+
+src/physics/PhysicsSystem.s: src/physics/PhysicsSystem.cpp.s
+.PHONY : src/physics/PhysicsSystem.s
+
+# target to generate assembly for a file
+src/physics/PhysicsSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.s
+.PHONY : src/physics/PhysicsSystem.cpp.s
+
 src/rendering/Renderer.o: src/rendering/Renderer.cpp.o
 .PHONY : src/rendering/Renderer.o
 
@@ -402,6 +426,9 @@ help:
 	@echo "... src/movement/MovementSystem.o"
 	@echo "... src/movement/MovementSystem.i"
 	@echo "... src/movement/MovementSystem.s"
+	@echo "... src/physics/PhysicsSystem.o"
+	@echo "... src/physics/PhysicsSystem.i"
+	@echo "... src/physics/PhysicsSystem.s"
 	@echo "... src/rendering/Renderer.o"
 	@echo "... src/rendering/Renderer.i"
 	@echo "... src/rendering/Renderer.s"

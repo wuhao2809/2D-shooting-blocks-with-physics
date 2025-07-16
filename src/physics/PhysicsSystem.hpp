@@ -4,13 +4,15 @@
 #include <box2d/box2d.h>
 #include <unordered_map>
 
+class Manager;
+
 /**
  * @brief Physics system using Box2D 3.x for collision detection and physics simulation
  */
 class PhysicsSystem : public System
 {
 public:
-    PhysicsSystem();
+    PhysicsSystem(Manager *mgr);
     ~PhysicsSystem();
 
     void update(float dt) override;
@@ -22,6 +24,7 @@ public:
     static constexpr float METERS_PER_PIXEL = 1.0f / PIXELS_PER_METER;
 
 private:
+    Manager *manager;
     b2WorldId worldId;
     std::unordered_map<Entity, b2BodyId> entityBodies;
 

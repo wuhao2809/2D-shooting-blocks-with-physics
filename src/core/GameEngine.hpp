@@ -4,7 +4,7 @@
 #include "../input/InputSystem.hpp"
 #include "../movement/MovementSystem.hpp"
 #include "../gameplay/ShootingSystem.hpp"
-// #include "../physics/PhysicsSystem.hpp"  // Temporarily disabled
+#include "../physics/PhysicsSystem.hpp"
 #include "../map/MapSystem.hpp"
 #include "../rendering/RenderingSystem.hpp"
 #include <SDL3/SDL.h>
@@ -30,7 +30,7 @@ public:
     InputSystem *getInputSystem() { return &inputSystem; }
     MovementSystem *getMovementSystem() { return movementSystem.get(); }
     ShootingSystem *getShootingSystem() { return shootingSystem.get(); }
-    // PhysicsSystem *getPhysicsSystem() { return physicsSystem.get(); }  // Temporarily disabled
+    PhysicsSystem *getPhysicsSystem() { return physicsSystem.get(); }
     MapSystem *getMapSystem() { return mapSystem.get(); }
     RenderingSystem *getRenderingSystem() { return renderingSystem.get(); }
     Blackboard *getBlackboard() { return &blackboard; }
@@ -42,7 +42,7 @@ private:
     InputSystem inputSystem;
     std::unique_ptr<MovementSystem> movementSystem;
     std::unique_ptr<ShootingSystem> shootingSystem;
-    // std::unique_ptr<PhysicsSystem> physicsSystem;  // Temporarily disabled
+    std::unique_ptr<PhysicsSystem> physicsSystem;
     std::unique_ptr<MapSystem> mapSystem;
     std::unique_ptr<RenderingSystem> renderingSystem;
 

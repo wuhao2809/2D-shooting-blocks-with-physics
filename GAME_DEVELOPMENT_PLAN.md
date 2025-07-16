@@ -241,6 +241,8 @@
 - **No Collision Detection**: Without physics system, bullets pass through obstacles
 - **Limited Interactions**: Obstacles are static and don't respond to bullets yet
 
+### 🎮 Current Controls
+
 - **W/A/S/D**: Move player (updates facing direction)
 - **Space**: Shoot bullets in facing direction
 - **Close Window**: Exit game
@@ -273,14 +275,17 @@
 
 ## Next Priority
 
-The next logical step would be **Physics System** integration. With the blackboard system in place, physics events (collisions, impulses, etc.) can be easily communicated between systems. The physics system would:
+The next logical step would be **Physics System** integration with Box2D 3.x API. The physics system needs to be rewritten to use the new C-style functional API instead of the C++ OOP API. Once complete, this would enable:
 
-1. Listen for collision events via blackboard
-2. Post collision results back to blackboard 
-3. Allow bullet-obstacle and bullet-enemy interactions
-4. Enable proper game mechanics for the shooting game
+1. Bullet-obstacle collision detection
+2. Destructible obstacles that respond to bullet impacts
+3. Proper physics simulation for moving objects
+4. Collision events communicated via blackboard system
 
-After that, **Asset Management** would enhance the visual appeal with proper sprites and textures.
+Alternative priorities:
+- **Asset Management**: Replace colored rectangles with proper sprites and textures
+- **Enhanced Gameplay**: Add enemies, health systems, and scoring
+- **Visual Polish**: Add particle effects, animations, and UI elements
 
 - [x] Initialize C++ project with CMake.
 - [x] Integrate SDL3 and Box2D (add to `third_party/`).

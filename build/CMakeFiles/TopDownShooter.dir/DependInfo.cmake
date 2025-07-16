@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/main.cpp" "CMakeFiles/TopDownShooter.dir/src/main.cpp.o" "gcc" "CMakeFiles/TopDownShooter.dir/src/main.cpp.o.d"
   "/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/map/MapSystem.cpp" "CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o" "gcc" "CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o.d"
   "/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/movement/MovementSystem.cpp" "CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.o" "gcc" "CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.o.d"
+  "/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/physics/PhysicsSystem.cpp" "CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o" "gcc" "CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o.d"
   "/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/Renderer.cpp" "CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o" "gcc" "CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o.d"
   "/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/RenderingSystem.cpp" "CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o" "gcc" "CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o.d"
   )

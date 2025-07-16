@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o.d"
   "CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.o"
   "CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.o.d"
+  "CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o"
+  "CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.o.d"
   "CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o"
   "CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o.d"
   "CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o"

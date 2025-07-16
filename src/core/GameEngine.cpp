@@ -35,7 +35,7 @@ bool GameEngine::initialize()
     shootingSystem = std::make_unique<ShootingSystem>(&manager);
 
     // Create physics system
-    // physicsSystem = std::make_unique<PhysicsSystem>();  // Temporarily disabled
+    physicsSystem = std::make_unique<PhysicsSystem>(&manager);
 
     // Create map system
     mapSystem = std::make_unique<MapSystem>(&manager);
@@ -44,7 +44,7 @@ bool GameEngine::initialize()
     inputSystem.setBlackboard(&blackboard);
     movementSystem->setBlackboard(&blackboard);
     shootingSystem->setBlackboard(&blackboard);
-    // physicsSystem->setBlackboard(&blackboard);  // Temporarily disabled
+    physicsSystem->setBlackboard(&blackboard);
     mapSystem->setBlackboard(&blackboard);
     renderingSystem->setBlackboard(&blackboard);
 
@@ -193,6 +193,17 @@ void GameEngine::createEntityFromJSON(const nlohmann::json &entityData)
         addComponent<Shooter>(entity, shooter);
         std::cout << "[GameEngine] Added Shooter component to entity " << entity << std::endl;
     }
+
+    if (components.contains("Velocity"))
+    {
+        Velocity velocity{
+            components["Velocity"]["x"],
+            components["Velocity"]["y"]};
+        addComponent<Velocity>(entity, velocity);
+        movementSystem->entities.push_back(entity);
+        physicsSystem->addEntity(entity);
+        std::cout << "[GameEngine] Added Velocity component to entity " << entity << std::endl;
+    }
 }
 
 void GameEngine::run()
@@ -234,7 +245,7 @@ void GameEngine::update(float dt)
     inputSystem.update(dt);
     movementSystem->update(dt);
     shootingSystem->update(dt);
-    // physicsSystem->update(dt);  // Temporarily disabled
+    physicsSystem->update(dt);
     mapSystem->update(dt);
     renderingSystem->update(dt);
 }

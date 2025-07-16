@@ -1,277 +1,282 @@
 #include "PhysicsSystem.hpp"
 #include "../core/Manager.hpp"
+#include "../core/Components.hpp"
 #include <iostream>
 
 PhysicsSystem::PhysicsSystem()
 {
-    // Create Box2D world with gravity
-    b2Vec2 gravity(0.0f, 0.0f); // No gravity for top-down game
-    world = std::make_unique<b2World>(gravity);
-    
-    // Set up contact listener for collision detection
-    auto contactListener = std::make_unique<ContactListener>(this);
-    world->SetContactListener(contactListener.get());
-    
-    std::cout << "[PhysicsSystem] Initialized with Box2D" << std::endl;
+    // Create Box2D world with default settings
+    b2WorldDef worldDef = b2DefaultWorldDef();
+    worldDef.gravity = {0.0f, 0.0f}; // No gravity for top-down shooter
+    worldId = b2CreateWorld(&worldDef);
+
+    std::cout << "[PhysicsSystem] Initialized with Box2D 3.x" << std::endl;
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
-    // Clean up all bodies
-    for (auto& pair : entityBodies) {
-        if (pair.second) {
-            world->DestroyBody(pair.second);
-        }
+    if (b2World_IsValid(worldId))
+    {
+        b2DestroyWorld(worldId);
     }
-    entityBodies.clear();
-    
-    std::cout << "[PhysicsSystem] Destroyed" << std::endl;
 }
 
 void PhysicsSystem::update(float dt)
 {
-    // Check for new entities to add to physics world
-    for (Entity entity : entities) {
-        if (entityBodies.find(entity) == entityBodies.end()) {
-            addEntity(entity);
-        }
-    }
-    
-    // Sync ECS components to physics bodies
+    if (!b2World_IsValid(worldId))
+        return;
+
+    // Sync ECS data to physics world
     syncECSToPhysics();
-    
+
     // Step the physics world
-    int32 velocityIterations = 6;
-    int32 positionIterations = 2;
-    world->Step(dt, velocityIterations, positionIterations);
-    
-    // Sync physics bodies back to ECS components
+    b2World_Step(worldId, dt, 4); // 4 sub-steps for stability
+
+    // Handle collision events
+    processCollisionEvents();
+
+    // Check for physics impulse requests from blackboard
+    if (blackboard && blackboard->has("physics_impulse_request") &&
+        blackboard->getValue<bool>("physics_impulse_request"))
+    {
+
+        Entity entity = blackboard->getValue<Entity>("physics_impulse_entity");
+        float impulseX = blackboard->getValue<float>("physics_impulse_x");
+        float impulseY = blackboard->getValue<float>("physics_impulse_y");
+
+        auto it = entityBodies.find(entity);
+        if (it != entityBodies.end())
+        {
+            b2Vec2 impulse = {impulseX * METERS_PER_PIXEL, impulseY * METERS_PER_PIXEL};
+            b2Body_ApplyLinearImpulseToCenter(it->second, impulse, true);
+        }
+
+        blackboard->setValue("physics_impulse_request", false);
+    }
+
+    // Sync physics world back to ECS
     syncPhysicsToECS();
-    
-    // Handle collisions and physics events
-    handleCollisions();
 }
 
 void PhysicsSystem::addEntity(Entity entity)
 {
-    Position* pos = getComponent<Position>(entity);
-    if (!pos) return;
-    
+    Manager *manager = Manager::getInstance();
+
     // Determine entity type and create appropriate body
-    Input* input = getComponent<Input>(entity);
-    Bullet* bullet = getComponent<Bullet>(entity);
-    
-    if (input && input->controllable) {
+    if (manager->hasComponent<Player>(entity))
+    {
         createPlayerBody(entity);
-    } else if (bullet) {
+    }
+    else if (manager->hasComponent<Bullet>(entity))
+    {
         createBulletBody(entity);
-    } else {
-        // Check if it's an obstacle (has Position and Renderable but no Input/Bullet)
-        Renderable* renderable = getComponent<Renderable>(entity);
-        if (renderable) {
-            createObstacleBody(entity);
-        }
+    }
+    else if (manager->hasComponent<Position>(entity) &&
+             manager->hasComponent<Renderable>(entity))
+    {
+        createObstacleBody(entity);
     }
 }
 
 void PhysicsSystem::removeEntity(Entity entity)
 {
     auto it = entityBodies.find(entity);
-    if (it != entityBodies.end()) {
-        world->DestroyBody(it->second);
+    if (it != entityBodies.end())
+    {
+        if (b2Body_IsValid(it->second))
+        {
+            b2DestroyBody(it->second);
+        }
         entityBodies.erase(it);
     }
 }
 
 void PhysicsSystem::createPlayerBody(Entity entity)
 {
-    Position* pos = getComponent<Position>(entity);
-    if (!pos) return;
-    
-    b2BodyDef bodyDef;
+    Manager *manager = Manager::getInstance();
+    if (!manager->hasComponent<Position>(entity))
+        return;
+
+    Position *pos = manager->getComponent<Position>(entity);
+    b2Vec2 position = pixelsToMeters(pos->x, pos->y);
+
+    // Create body definition
+    b2BodyDef bodyDef = b2DefaultBodyDef();
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position = pixelsToMeters(pos->x + 16, pos->y + 16); // Center of 32x32 player
-    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(entity);
-    
-    b2Body* body = world->CreateBody(&bodyDef);
-    
-    // Create box shape for player
-    b2PolygonShape shape;
-    shape.SetAsBox(16 * METERS_PER_PIXEL, 16 * METERS_PER_PIXEL);
-    
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &shape;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-    fixtureDef.restitution = 0.1f;
-    
-    body->CreateFixture(&fixtureDef);
-    entityBodies[entity] = body;
-    
-    std::cout << "[PhysicsSystem] Created player body for entity " << entity << std::endl;
+    bodyDef.position = position;
+    bodyDef.linearDamping = 2.0f; // Smooth movement
+    bodyDef.userData = (void *)(uintptr_t)entity;
+
+    b2BodyId bodyId = b2CreateBody(worldId, &bodyDef);
+
+    // Create circular shape for player
+    b2Circle circle = {{0.0f, 0.0f}, 0.5f}; // 0.5 meter radius
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+    shapeDef.density = 1.0f;
+    shapeDef.friction = 0.3f;
+
+    b2CreateCircleShape(bodyId, &shapeDef, &circle);
+
+    entityBodies[entity] = bodyId;
 }
 
 void PhysicsSystem::createBulletBody(Entity entity)
 {
-    Position* pos = getComponent<Position>(entity);
-    if (!pos) return;
-    
-    b2BodyDef bodyDef;
+    Manager *manager = Manager::getInstance();
+    if (!manager->hasComponent<Position>(entity))
+        return;
+
+    Position *pos = manager->getComponent<Position>(entity);
+    b2Vec2 position = pixelsToMeters(pos->x, pos->y);
+
+    // Create body definition
+    b2BodyDef bodyDef = b2DefaultBodyDef();
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position = pixelsToMeters(pos->x + 4, pos->y + 4); // Center of 8x8 bullet
-    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(entity);
-    bodyDef.bullet = true; // Enable continuous collision detection
-    
-    b2Body* body = world->CreateBody(&bodyDef);
-    
-    // Create circle shape for bullet
-    b2CircleShape shape;
-    shape.m_radius = 4 * METERS_PER_PIXEL;
-    
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &shape;
-    fixtureDef.density = 0.1f;
-    fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = 0.8f;
-    fixtureDef.isSensor = true; // Bullets are sensors for now
-    
-    body->CreateFixture(&fixtureDef);
-    entityBodies[entity] = body;
-    
-    std::cout << "[PhysicsSystem] Created bullet body for entity " << entity << std::endl;
+    bodyDef.position = position;
+    bodyDef.isBullet = true; // Enable continuous collision detection
+    bodyDef.userData = (void *)(uintptr_t)entity;
+
+    b2BodyId bodyId = b2CreateBody(worldId, &bodyDef);
+
+    // Create small circular shape for bullet
+    b2Circle circle = {{0.0f, 0.0f}, 0.1f}; // 0.1 meter radius
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+    shapeDef.density = 0.1f;
+    shapeDef.friction = 0.0f;
+    shapeDef.isSensor = true; // Bullets are sensors for collision detection
+
+    b2CreateCircleShape(bodyId, &shapeDef, &circle);
+
+    entityBodies[entity] = bodyId;
 }
 
 void PhysicsSystem::createObstacleBody(Entity entity)
 {
-    Position* pos = getComponent<Position>(entity);
-    Renderable* renderable = getComponent<Renderable>(entity);
-    if (!pos || !renderable) return;
-    
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody; // Make obstacles movable when hit
-    bodyDef.position = pixelsToMeters(pos->x + renderable->width/2, pos->y + renderable->height/2);
-    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(entity);
-    
-    b2Body* body = world->CreateBody(&bodyDef);
-    
-    // Create box shape for obstacle
-    b2PolygonShape shape;
-    shape.SetAsBox(renderable->width/2 * METERS_PER_PIXEL, renderable->height/2 * METERS_PER_PIXEL);
-    
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &shape;
-    fixtureDef.density = 2.0f;
-    fixtureDef.friction = 0.5f;
-    fixtureDef.restitution = 0.3f;
-    
-    body->CreateFixture(&fixtureDef);
-    entityBodies[entity] = body;
-    
-    std::cout << "[PhysicsSystem] Created obstacle body for entity " << entity << std::endl;
-}
+    Manager *manager = Manager::getInstance();
+    if (!manager->hasComponent<Position>(entity) || !manager->hasComponent<Renderable>(entity))
+        return;
 
-void PhysicsSystem::syncECSToPhysics()
-{
-    for (auto& pair : entityBodies) {
-        Entity entity = pair.first;
-        b2Body* body = pair.second;
-        
-        Velocity* vel = getComponent<Velocity>(entity);
-        if (vel) {
-            b2Vec2 velocity = pixelsToMeters(vel->x, vel->y);
-            body->SetLinearVelocity(velocity);
-        }
-    }
+    Position *pos = manager->getComponent<Position>(entity);
+    Renderable *renderable = manager->getComponent<Renderable>(entity);
+
+    b2Vec2 position = pixelsToMeters(pos->x, pos->y);
+
+    // Create body definition
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position = position;
+    bodyDef.userData = (void *)(uintptr_t)entity;
+
+    b2BodyId bodyId = b2CreateBody(worldId, &bodyDef);
+
+    // Create box shape for obstacle
+    b2Vec2 size = {renderable->width * METERS_PER_PIXEL * 0.5f,
+                   renderable->height * METERS_PER_PIXEL * 0.5f};
+    b2Polygon box = b2MakeBox(size.x, size.y);
+
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+    shapeDef.density = 1.0f;
+    shapeDef.friction = 0.5f;
+    shapeDef.restitution = 0.2f;
+
+    b2CreatePolygonShape(bodyId, &shapeDef, &box);
+
+    entityBodies[entity] = bodyId;
 }
 
 void PhysicsSystem::syncPhysicsToECS()
 {
-    for (auto& pair : entityBodies) {
-        Entity entity = pair.first;
-        b2Body* body = pair.second;
-        
-        Position* pos = getComponent<Position>(entity);
-        Velocity* vel = getComponent<Velocity>(entity);
-        
-        if (pos) {
-            b2Vec2 position = body->GetPosition();
-            float pixelX, pixelY;
-            metersToPixels(position, pixelX, pixelY);
-            
-            // Adjust for entity center offset
-            pos->x = pixelX - 16; // Assuming 32x32 entities
-            pos->y = pixelY - 16;
+    Manager *manager = Manager::getInstance();
+
+    for (auto &[entity, bodyId] : entityBodies)
+    {
+        if (!b2Body_IsValid(bodyId))
+            continue;
+
+        if (manager->hasComponent<Position>(entity))
+        {
+            Position *pos = manager->getComponent<Position>(entity);
+            b2Vec2 position = b2Body_GetPosition(bodyId);
+            metersToPixels(position, pos->x, pos->y);
         }
-        
-        if (vel) {
-            b2Vec2 velocity = body->GetLinearVelocity();
+
+        if (manager->hasComponent<Velocity>(entity))
+        {
+            Velocity *vel = manager->getComponent<Velocity>(entity);
+            b2Vec2 velocity = b2Body_GetLinearVelocity(bodyId);
             vel->x = velocity.x * PIXELS_PER_METER;
             vel->y = velocity.y * PIXELS_PER_METER;
         }
     }
 }
 
-void PhysicsSystem::handleCollisions()
+void PhysicsSystem::syncECSToPhysics()
 {
-    // Process collision events and post to blackboard
-    for (b2Contact* contact = world->GetContactList(); contact; contact = contact->GetNext()) {
-        if (contact->IsTouching()) {
-            b2Body* bodyA = contact->GetFixtureA()->GetBody();
-            b2Body* bodyB = contact->GetFixtureB()->GetBody();
-            
-            Entity entityA = static_cast<Entity>(bodyA->GetUserData().pointer);
-            Entity entityB = static_cast<Entity>(bodyB->GetUserData().pointer);
-            
-            // Check for bullet-obstacle collision
-            Bullet* bulletA = getComponent<Bullet>(entityA);
-            Bullet* bulletB = getComponent<Bullet>(entityB);
-            
-            if (bulletA && !bulletB) {
-                // Entity A is bullet, Entity B is obstacle
-                handleBulletObstacleCollision(entityA, entityB);
-            } else if (bulletB && !bulletA) {
-                // Entity B is bullet, Entity A is obstacle
-                handleBulletObstacleCollision(entityB, entityA);
-            }
+    Manager *manager = Manager::getInstance();
+
+    for (auto &[entity, bodyId] : entityBodies)
+    {
+        if (!b2Body_IsValid(bodyId))
+            continue;
+
+        if (manager->hasComponent<Velocity>(entity))
+        {
+            Velocity *vel = manager->getComponent<Velocity>(entity);
+            b2Vec2 velocity = {vel->x * METERS_PER_PIXEL, vel->y * METERS_PER_PIXEL};
+            b2Body_SetLinearVelocity(bodyId, velocity);
         }
+    }
+}
+
+void PhysicsSystem::processCollisionEvents()
+{
+    // Box2D 3.x uses contact events instead of listeners
+    b2ContactEvents contactEvents = b2World_GetContactEvents(worldId);
+
+    // Process begin contact events
+    for (int i = 0; i < contactEvents.beginCount; ++i)
+    {
+        b2ContactBeginTouchEvent *beginEvent = contactEvents.beginEvents + i;
+
+        Entity entityA = (Entity)(uintptr_t)b2Body_GetUserData(beginEvent->bodyIdA);
+        Entity entityB = (Entity)(uintptr_t)b2Body_GetUserData(beginEvent->bodyIdB);
+
+        handleBulletObstacleCollision(entityA, entityB);
+        handleBulletObstacleCollision(entityB, entityA);
     }
 }
 
 void PhysicsSystem::handleBulletObstacleCollision(Entity bullet, Entity obstacle)
 {
-    if (blackboard) {
-        blackboard->setValue("collision_bullet", bullet);
-        blackboard->setValue("collision_obstacle", obstacle);
-        blackboard->setValue("collision_event", true);
-        
+    Manager *manager = Manager::getInstance();
+
+    if (manager->hasComponent<Bullet>(bullet) &&
+        manager->hasComponent<Renderable>(obstacle))
+    {
+
+        // Signal collision to blackboard
+        if (blackboard)
+        {
+            blackboard->setValue("collision_event", true);
+            blackboard->setValue("collision_bullet", bullet);
+            blackboard->setValue("collision_obstacle", obstacle);
+        }
+
+        // Remove bullet entity
+        removeEntity(bullet);
+        manager->removeEntity(bullet);
+
         std::cout << "[PhysicsSystem] Bullet " << bullet << " hit obstacle " << obstacle << std::endl;
     }
 }
 
 b2Vec2 PhysicsSystem::pixelsToMeters(float pixelX, float pixelY)
 {
-    return b2Vec2(pixelX * METERS_PER_PIXEL, pixelY * METERS_PER_PIXEL);
+    return {pixelX * METERS_PER_PIXEL, pixelY * METERS_PER_PIXEL};
 }
 
-void PhysicsSystem::metersToPixels(const b2Vec2& meters, float& pixelX, float& pixelY)
+void PhysicsSystem::metersToPixels(const b2Vec2 &meters, float &pixelX, float &pixelY)
 {
     pixelX = meters.x * PIXELS_PER_METER;
     pixelY = meters.y * PIXELS_PER_METER;
-}
-
-// ContactListener implementation
-void ContactListener::BeginContact(b2Contact* contact)
-{
-    b2Body* bodyA = contact->GetFixtureA()->GetBody();
-    b2Body* bodyB = contact->GetFixtureB()->GetBody();
-    
-    Entity entityA = static_cast<Entity>(bodyA->GetUserData().pointer);
-    Entity entityB = static_cast<Entity>(bodyB->GetUserData().pointer);
-    
-    std::cout << "[ContactListener] Collision between entity " << entityA << " and " << entityB << std::endl;
-}
-
-void ContactListener::EndContact(b2Contact* contact)
-{
-    // Handle collision end if needed
 }
