@@ -25,6 +25,17 @@ void ShootingSystem::update(float dt)
         blackboard->setValue("shoot_request", false);
     }
 
+    // Check for collision events to clean up bullet from our entity list
+    if (blackboard && blackboard->has("collision_event") && blackboard->getValue<bool>("collision_event"))
+    {
+        Entity bullet = blackboard->getValue<Entity>("collision_bullet");
+
+        // Remove bullet from our entity list (it's already removed from manager by PhysicsSystem)
+        entities.erase(std::remove(entities.begin(), entities.end(), bullet), entities.end());
+
+        std::cout << "[ShootingSystem] Cleaned up bullet " << bullet << " from entity list after collision" << std::endl;
+    }
+
     updateBullets(dt);
     removeBulletsOutOfBounds();
     removeExpiredBullets();
@@ -179,4 +190,15 @@ Entity ShootingSystem::createBullet(const Position &startPos, const Direction &d
     std::cout << "[ShootingSystem] Created bullet with velocity (" << vel.x << ", " << vel.y << ")" << std::endl;
 
     return bullet;
+}
+
+void ShootingSystem::removeBulletOnCollision(Entity bullet)
+{
+    // Remove bullet from manager
+    manager->removeEntity(bullet);
+
+    // Remove from this system's entity list
+    entities.erase(std::remove(entities.begin(), entities.end(), bullet), entities.end());
+
+    std::cout << "[ShootingSystem] Removed bullet " << bullet << " on collision" << std::endl;
 }

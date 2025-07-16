@@ -20,5 +20,6 @@ private:
     void updateBullets(float dt);
     void removeBulletsOutOfBounds();
     void removeExpiredBullets();
+    void removeBulletOnCollision(Entity bullet);
     Entity createBullet(const Position &startPos, const Direction &dir);
 };

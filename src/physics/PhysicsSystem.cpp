@@ -187,7 +187,7 @@ void PhysicsSystem::syncECSToPhysics()
         if (pos)
         {
             b2Vec2 position = pixelsToMeters(pos->x, pos->y);
-            b2Rot rotation = b2MakeRot(0.0f); // No rotation for top-down
+            b2Rot rotation = b2MakeRot(1.0f); // No rotation for top-down
             b2Body_SetTransform(bodyId, position, rotation);
         }
 
@@ -261,6 +261,42 @@ void PhysicsSystem::handleCollisions()
             }
         }
     }
+
+    // Check for player-obstacle collisions
+    for (Entity player : entities)
+    {
+        if (!getComponent<Input>(player))
+            continue;
+
+        Position *playerPos = getComponent<Position>(player);
+        if (!playerPos)
+            continue;
+
+        for (Entity obstacle : entities)
+        {
+            if (player == obstacle ||
+                getComponent<Bullet>(obstacle) ||
+                getComponent<Input>(obstacle))
+                continue;
+
+            Position *obstaclePos = getComponent<Position>(obstacle);
+            Renderable *obstacleRend = getComponent<Renderable>(obstacle);
+
+            if (!obstaclePos || !obstacleRend)
+                continue;
+
+            // Simple bounding box collision check (player is 32x32, obstacle varies)
+            float dx = playerPos->x - obstaclePos->x;
+            float dy = playerPos->y - obstaclePos->y;
+            float playerHalfSize = 16.0f; // Player is 32x32, so half is 16
+
+            if (abs(dx) < (playerHalfSize + obstacleRend->width / 2) &&
+                abs(dy) < (playerHalfSize + obstacleRend->height / 2))
+            {
+                handlePlayerObstacleCollision(player, obstacle);
+            }
+        }
+    }
 }
 
 void PhysicsSystem::handleBulletObstacleCollision(Entity bullet, Entity obstacle)
@@ -283,7 +319,22 @@ void PhysicsSystem::handleBulletObstacleCollision(Entity bullet, Entity obstacle
         }
     }
 
-    // Post collision event to blackboard
+    // Remove bullet immediately upon collision
+    if (manager)
+    {
+        manager->removeEntity(bullet);
+        // Remove from physics system's entity list
+        entities.erase(std::remove(entities.begin(), entities.end(), bullet), entities.end());
+        // Remove from physics bodies map
+        auto bodyIt = entityBodies.find(bullet);
+        if (bodyIt != entityBodies.end())
+        {
+            b2DestroyBody(bodyIt->second);
+            entityBodies.erase(bodyIt);
+        }
+    }
+
+    // Post collision event to blackboard for other systems (like MapSystem)
     if (blackboard)
     {
         blackboard->setValue("collision_event", true);
@@ -291,7 +342,50 @@ void PhysicsSystem::handleBulletObstacleCollision(Entity bullet, Entity obstacle
         blackboard->setValue("collision_obstacle", obstacle);
     }
 
-    std::cout << "[PhysicsSystem] Bullet " << bullet << " hit obstacle " << obstacle << std::endl;
+    std::cout << "[PhysicsSystem] Bullet " << bullet << " hit obstacle " << obstacle << " and was removed" << std::endl;
+}
+
+void PhysicsSystem::handlePlayerObstacleCollision(Entity player, Entity obstacle)
+{
+    Position *playerPos = getComponent<Position>(player);
+    Position *obstaclePos = getComponent<Position>(obstacle);
+    Velocity *playerVel = getComponent<Velocity>(player);
+    Velocity *obstacleVel = getComponent<Velocity>(obstacle);
+
+    if (!playerPos || !obstaclePos || !playerVel || !obstacleVel)
+        return;
+
+    // Calculate collision direction (from obstacle to player)
+    float dx = playerPos->x - obstaclePos->x;
+    float dy = playerPos->y - obstaclePos->y;
+    float distance = sqrt(dx * dx + dy * dy);
+
+    if (distance > 0)
+    {
+        // Normalize direction
+        dx /= distance;
+        dy /= distance;
+
+        // Apply impulse to player (knockback effect)
+        float knockbackStrength = 150.0f;
+        playerVel->x += dx * knockbackStrength;
+        playerVel->y += dy * knockbackStrength;
+
+        // Apply smaller counter-impulse to obstacle
+        float obstacleImpulse = 50.0f;
+        obstacleVel->x -= dx * obstacleImpulse;
+        obstacleVel->y -= dy * obstacleImpulse;
+
+        // Post player collision event to blackboard
+        if (blackboard)
+        {
+            blackboard->setValue("player_collision_event", true);
+            blackboard->setValue("player_collision_player", player);
+            blackboard->setValue("player_collision_obstacle", obstacle);
+        }
+
+        std::cout << "[PhysicsSystem] Player " << player << " collided with obstacle " << obstacle << std::endl;
+    }
 }
 
 void PhysicsSystem::handleBoundaryCollisions()

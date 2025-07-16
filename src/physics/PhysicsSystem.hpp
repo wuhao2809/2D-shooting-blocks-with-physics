@@ -40,6 +40,7 @@ private:
     b2Vec2 pixelsToMeters(float pixelX, float pixelY);
     void metersToPixels(const b2Vec2 &meters, float &pixelX, float &pixelY);
     void handleBulletObstacleCollision(Entity bullet, Entity obstacle);
+    void handlePlayerObstacleCollision(Entity player, Entity obstacle);
     void handleObstacleBoundaryCollision(Entity obstacle);
 
     // Box2D 3.x doesn't use contact listeners, use collision events instead
