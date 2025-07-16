@@ -132,6 +132,23 @@ void InputSystem::handleEvent(const SDL_Event &event)
     bool pressed = (event.type == SDL_EVENT_KEY_DOWN);
     SDL_Scancode sc = event.key.scancode; // SDL3: use scancode field
 
+    // Handle special keys
+    if (pressed && blackboard)
+    {
+      if (sc == SDL_SCANCODE_H)
+      {
+        // Toggle HUD
+        blackboard->setValue("hud_toggle_request", true);
+        std::cout << "[InputSystem] HUD toggle requested" << std::endl;
+      }
+      else if (sc == SDL_SCANCODE_ESCAPE)
+      {
+        // Exit game
+        blackboard->setValue("exit_game_request", true);
+        std::cout << "[InputSystem] Exit game requested" << std::endl;
+      }
+    }
+
     for (Entity entity : entities)
     {
       keyStates[entity][sc] = pressed;

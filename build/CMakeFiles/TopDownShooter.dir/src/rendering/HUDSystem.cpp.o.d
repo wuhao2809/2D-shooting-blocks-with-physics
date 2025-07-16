@@ -1,9 +1,8 @@
-CMakeFiles/TopDownShooter.dir/src/main.cpp.o: \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/main.cpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/GameEngine.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/Manager.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/Component.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/Entity.hpp \
+CMakeFiles/TopDownShooter.dir/src/rendering/HUDSystem.cpp.o: \
+  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/HUDSystem.cpp \
+  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/HUDSystem.hpp \
+  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/../core/System.hpp \
+  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/../core/Entity.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cstdint \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__assert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
@@ -38,8 +37,7 @@ CMakeFiles/TopDownShooter.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/System.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/Blackboard.hpp \
+  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/../core/Blackboard.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/any \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/allocator.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/addressof.h \
@@ -875,14 +873,7 @@ CMakeFiles/TopDownShooter.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cstdarg \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/temp_value.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__split_buffer \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/typeindex \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/istream \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ostream \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../input/InputSystem.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../input/../core/Components.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../input/../core/System.hpp \
+  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/rendering/../core/Components.hpp \
   /opt/homebrew/include/SDL3/SDL.h \
   /opt/homebrew/include/SDL3/SDL_stdinc.h \
   /opt/homebrew/include/SDL3/SDL_platform_defines.h \
@@ -944,134 +935,9 @@ CMakeFiles/TopDownShooter.dir/src/main.cpp.o: \
   /opt/homebrew/include/SDL3/SDL_tray.h \
   /opt/homebrew/include/SDL3/SDL_version.h \
   /opt/homebrew/include/SDL3/SDL_oldnames.h \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../movement/MovementSystem.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../movement/../core/System.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../movement/../core/Components.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../gameplay/ShootingSystem.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../gameplay/../core/System.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../gameplay/../core/Components.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../physics/PhysicsSystem.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../physics/../core/System.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../physics/../core/Components.hpp \
-  /usr/local/include/box2d/box2d.h /usr/local/include/box2d/base.h \
-  /usr/local/include/box2d/collision.h \
-  /usr/local/include/box2d/math_functions.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/float.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/float.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/float.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdbool.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdbool.h \
-  /usr/local/include/box2d/id.h /usr/local/include/box2d/types.h \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../map/MapSystem.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../map/../core/System.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../map/../core/Manager.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../map/../core/Components.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/RenderingSystem.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/../core/System.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/../core/Components.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/Renderer.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/../core/Entity.hpp \
-  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/HUDSystem.hpp \
-  /opt/homebrew/include/nlohmann/json.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/functional \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binary_negate.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_back.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/perfect_forward.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_front.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binder1st.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binder2nd.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/boyer_moore_searcher.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/compose.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/default_searcher.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/function.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/builtin_new_allocator.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/strip_signature.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/mem_fn.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/mem_fun_ref.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/not_fn.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/pointer_to_binary_function.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/pointer_to_unary_function.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/unary_negate.h \
-  /opt/homebrew/include/nlohmann/adl_serializer.hpp \
-  /opt/homebrew/include/nlohmann/detail/abi_macros.hpp \
-  /opt/homebrew/include/nlohmann/detail/conversions/from_json.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray \
-  /opt/homebrew/include/nlohmann/detail/exceptions.hpp \
-  /opt/homebrew/include/nlohmann/detail/value_t.hpp \
-  /opt/homebrew/include/nlohmann/detail/macro_scope.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/detected.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/void_t.hpp \
-  /opt/homebrew/include/nlohmann/thirdparty/hedley/hedley.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /opt/homebrew/include/nlohmann/detail/string_escape.hpp \
-  /opt/homebrew/include/nlohmann/detail/input/position_t.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/cpp_future.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/type_traits.hpp \
-  /opt/homebrew/include/nlohmann/detail/iterators/iterator_traits.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/call_std/begin.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/call_std/end.hpp \
-  /opt/homebrew/include/nlohmann/json_fwd.hpp \
-  /opt/homebrew/include/nlohmann/detail/string_concat.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/identity_tag.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/std_fs.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/copy_options.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_status.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_type.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/perms.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_time_type.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/operations.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/perm_options.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/space_info.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_iterator.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_options.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path_iterator.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/u8path.h \
-  /opt/homebrew/include/nlohmann/detail/conversions/to_json.hpp \
-  /opt/homebrew/include/nlohmann/detail/iterators/iteration_proxy.hpp \
-  /opt/homebrew/include/nlohmann/detail/string_utils.hpp \
-  /opt/homebrew/include/nlohmann/byte_container_with_subtype.hpp \
-  /opt/homebrew/include/nlohmann/detail/hash.hpp \
-  /opt/homebrew/include/nlohmann/detail/input/binary_reader.hpp \
-  /opt/homebrew/include/nlohmann/detail/input/input_adapters.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/numeric \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/accumulate.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/adjacent_difference.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/exclusive_scan.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/gcd_lcm.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/inclusive_scan.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/inner_product.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/iota.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/midpoint.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/partial_sum.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/pstl_reduce.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/transform_exclusive_scan.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/transform_inclusive_scan.h \
-  /opt/homebrew/include/nlohmann/detail/input/json_sax.hpp \
-  /opt/homebrew/include/nlohmann/detail/input/lexer.hpp \
-  /opt/homebrew/include/nlohmann/detail/meta/is_sax.hpp \
-  /opt/homebrew/include/nlohmann/detail/input/parser.hpp \
-  /opt/homebrew/include/nlohmann/detail/iterators/internal_iterator.hpp \
-  /opt/homebrew/include/nlohmann/detail/iterators/primitive_iterator.hpp \
-  /opt/homebrew/include/nlohmann/detail/iterators/iter_impl.hpp \
-  /opt/homebrew/include/nlohmann/detail/iterators/json_reverse_iterator.hpp \
-  /opt/homebrew/include/nlohmann/detail/json_custom_base_class.hpp \
-  /opt/homebrew/include/nlohmann/detail/json_pointer.hpp \
-  /opt/homebrew/include/nlohmann/detail/json_ref.hpp \
-  /opt/homebrew/include/nlohmann/detail/output/binary_writer.hpp \
-  /opt/homebrew/include/nlohmann/detail/output/output_adapters.hpp \
-  /opt/homebrew/include/nlohmann/detail/output/serializer.hpp \
-  /opt/homebrew/include/nlohmann/detail/conversions/to_chars.hpp \
-  /opt/homebrew/include/nlohmann/ordered_map.hpp \
-  /opt/homebrew/include/nlohmann/detail/macro_unscope.hpp \
-  /opt/homebrew/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/istream \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ostream \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip

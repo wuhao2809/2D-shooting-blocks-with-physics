@@ -85,12 +85,12 @@ clean: CMakeFiles/TopDownShooter.dir/clean
 CMakeFiles/TopDownShooter.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12 "Built target TopDownShooter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13 "Built target TopDownShooter"
 .PHONY : CMakeFiles/TopDownShooter.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/TopDownShooter.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles 12
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/TopDownShooter.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles 0
 .PHONY : CMakeFiles/TopDownShooter.dir/rule
@@ -102,7 +102,7 @@ TopDownShooter: CMakeFiles/TopDownShooter.dir/rule
 # codegen rule for target.
 CMakeFiles/TopDownShooter.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12 "Finished codegen for target TopDownShooter"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13 "Finished codegen for target TopDownShooter"
 .PHONY : CMakeFiles/TopDownShooter.dir/codegen
 
 # clean rule for target.

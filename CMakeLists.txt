@@ -28,6 +28,7 @@ add_executable(TopDownShooter
     src/map/MapSystem.cpp
     src/rendering/Renderer.cpp
     src/rendering/RenderingSystem.cpp
+    src/rendering/HUDSystem.cpp
 )
 
 target_include_directories(TopDownShooter PRIVATE 

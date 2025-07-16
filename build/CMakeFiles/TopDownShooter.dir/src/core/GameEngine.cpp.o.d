@@ -971,6 +971,7 @@ CMakeFiles/TopDownShooter.dir/src/core/GameEngine.cpp.o: \
   /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/../core/Components.hpp \
   /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/Renderer.hpp \
   /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/../core/Entity.hpp \
+  /Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/src/core/../rendering/HUDSystem.hpp \
   /opt/homebrew/include/nlohmann/json.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/functional \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binary_negate.h \

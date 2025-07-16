@@ -7,6 +7,7 @@
 #include "../physics/PhysicsSystem.hpp"
 #include "../map/MapSystem.hpp"
 #include "../rendering/RenderingSystem.hpp"
+#include "../rendering/HUDSystem.hpp"
 #include <SDL3/SDL.h>
 #include <nlohmann/json.hpp>
 #include <memory>
@@ -33,6 +34,7 @@ public:
     PhysicsSystem *getPhysicsSystem() { return physicsSystem.get(); }
     MapSystem *getMapSystem() { return mapSystem.get(); }
     RenderingSystem *getRenderingSystem() { return renderingSystem.get(); }
+    HUDSystem *getHUDSystem() { return hudSystem.get(); }
     Blackboard *getBlackboard() { return &blackboard; }
 
 private:
@@ -45,6 +47,7 @@ private:
     std::unique_ptr<PhysicsSystem> physicsSystem;
     std::unique_ptr<MapSystem> mapSystem;
     std::unique_ptr<RenderingSystem> renderingSystem;
+    std::unique_ptr<HUDSystem> hudSystem;
 
     // SDL components
     SDL_Window *window = nullptr;

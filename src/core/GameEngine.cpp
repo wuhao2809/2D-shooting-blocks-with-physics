@@ -28,6 +28,9 @@ bool GameEngine::initialize()
     // Create rendering system
     renderingSystem = std::make_unique<RenderingSystem>(renderer, &manager);
 
+    // Create HUD system
+    hudSystem = std::make_unique<HUDSystem>(renderer);
+
     // Create movement system
     movementSystem = std::make_unique<MovementSystem>();
 
@@ -47,6 +50,7 @@ bool GameEngine::initialize()
     physicsSystem->setBlackboard(&blackboard);
     mapSystem->setBlackboard(&blackboard);
     renderingSystem->setBlackboard(&blackboard);
+    hudSystem->setBlackboard(&blackboard);
 
     std::cout << "[GameEngine] Blackboard setup complete" << std::endl;
 
@@ -252,17 +256,27 @@ void GameEngine::handleEvents()
 
 void GameEngine::update(float dt)
 {
+    // Check for exit game request
+    if (blackboard.has("exit_game_request") && blackboard.getValue<bool>("exit_game_request"))
+    {
+        running = false;
+        std::cout << "[GameEngine] Exit game request received" << std::endl;
+        return;
+    }
+
     inputSystem.update(dt);
     movementSystem->update(dt);
     shootingSystem->update(dt);
     physicsSystem->update(dt);
     mapSystem->update(dt);
     renderingSystem->update(dt);
+    hudSystem->update(dt);
 }
 
 void GameEngine::render()
 {
     renderingSystem->render();
+    hudSystem->render();
 }
 
 void GameEngine::shutdown()
@@ -270,6 +284,7 @@ void GameEngine::shutdown()
     std::cout << "[GameEngine] Shutting down..." << std::endl;
 
     renderingSystem.reset();
+    hudSystem.reset();
 
     if (renderer)
     {

@@ -345,6 +345,30 @@ src/physics/PhysicsSystem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/physics/PhysicsSystem.cpp.s
 .PHONY : src/physics/PhysicsSystem.cpp.s
 
+src/rendering/HUDSystem.o: src/rendering/HUDSystem.cpp.o
+.PHONY : src/rendering/HUDSystem.o
+
+# target to build an object file
+src/rendering/HUDSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/HUDSystem.cpp.o
+.PHONY : src/rendering/HUDSystem.cpp.o
+
+src/rendering/HUDSystem.i: src/rendering/HUDSystem.cpp.i
+.PHONY : src/rendering/HUDSystem.i
+
+# target to preprocess a source file
+src/rendering/HUDSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/HUDSystem.cpp.i
+.PHONY : src/rendering/HUDSystem.cpp.i
+
+src/rendering/HUDSystem.s: src/rendering/HUDSystem.cpp.s
+.PHONY : src/rendering/HUDSystem.s
+
+# target to generate assembly for a file
+src/rendering/HUDSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/HUDSystem.cpp.s
+.PHONY : src/rendering/HUDSystem.cpp.s
+
 src/rendering/Renderer.o: src/rendering/Renderer.cpp.o
 .PHONY : src/rendering/Renderer.o
 
@@ -429,6 +453,9 @@ help:
 	@echo "... src/physics/PhysicsSystem.o"
 	@echo "... src/physics/PhysicsSystem.i"
 	@echo "... src/physics/PhysicsSystem.s"
+	@echo "... src/rendering/HUDSystem.o"
+	@echo "... src/rendering/HUDSystem.i"
+	@echo "... src/rendering/HUDSystem.s"
 	@echo "... src/rendering/Renderer.o"
 	@echo "... src/rendering/Renderer.i"
 	@echo "... src/rendering/Renderer.s"
