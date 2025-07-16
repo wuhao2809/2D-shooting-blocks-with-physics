@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <cmath>
 
 PhysicsSystem::PhysicsSystem(Manager *mgr) : manager(mgr)
 {
@@ -24,7 +25,6 @@ PhysicsSystem::~PhysicsSystem()
 
 void PhysicsSystem::update(float dt)
 {
-    // Basic update stub
     if (!b2World_IsValid(worldId))
         return;
     
@@ -36,9 +36,15 @@ void PhysicsSystem::update(float dt)
         addEntity(entity);
         blackboard->setValue("physics_new_entity_request", false);
     }
+    
+    // Sync ECS data to physics world
+    syncECSToPhysics();
         
     // Step the physics world
     b2World_Step(worldId, dt, 4);
+    
+    // Sync physics back to ECS
+    syncPhysicsToECS();
     
     // Handle collisions
     handleCollisions();
@@ -47,6 +53,23 @@ void PhysicsSystem::update(float dt)
 void PhysicsSystem::addEntity(Entity entity)
 {
     entities.push_back(entity);
+    
+    // Check what type of entity this is and create appropriate body
+    if (getComponent<Input>(entity))
+    {
+        createPlayerBody(entity);
+        std::cout << "[PhysicsSystem] Added player entity " << entity << std::endl;
+    }
+    else if (getComponent<Bullet>(entity))
+    {
+        createBulletBody(entity);
+        std::cout << "[PhysicsSystem] Added bullet entity " << entity << std::endl;
+    }
+    else if (getComponent<Position>(entity) && getComponent<Velocity>(entity))
+    {
+        createObstacleBody(entity);
+        std::cout << "[PhysicsSystem] Added obstacle entity " << entity << std::endl;
+    }
 }
 
 void PhysicsSystem::removeEntity(Entity entity)
@@ -56,31 +79,149 @@ void PhysicsSystem::removeEntity(Entity entity)
     {
         entities.erase(it);
     }
+    
+    // Remove physics body if it exists
+    auto bodyIt = entityBodies.find(entity);
+    if (bodyIt != entityBodies.end())
+    {
+        b2DestroyBody(bodyIt->second);
+        entityBodies.erase(bodyIt);
+        std::cout << "[PhysicsSystem] Removed physics body for entity " << entity << std::endl;
+    }
 }
 
 void PhysicsSystem::createPlayerBody(Entity entity)
 {
-    // Stub implementation
+    Position *pos = getComponent<Position>(entity);
+    if (!pos)
+        return;
+
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position = pixelsToMeters(pos->x, pos->y);
+    // Note: Box2D 3.x doesn't have fixedRotation in bodyDef, we'll handle it differently
+
+    b2BodyId bodyId = b2CreateBody(worldId, &bodyDef);
+
+    // Create shape for player
+    b2Polygon box = b2MakeBox(16.0f * METERS_PER_PIXEL, 16.0f * METERS_PER_PIXEL);
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+    shapeDef.density = 1.0f;
+    // Note: Box2D 3.x doesn't have friction in shapeDef, it's handled differently
+
+    b2CreatePolygonShape(bodyId, &shapeDef, &box);
+
+    entityBodies[entity] = bodyId;
+    
+    std::cout << "[PhysicsSystem] Created player body for entity " << entity << std::endl;
 }
 
 void PhysicsSystem::createBulletBody(Entity entity)
 {
-    // Stub implementation
+    Position *pos = getComponent<Position>(entity);
+    if (!pos)
+        return;
+
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position = pixelsToMeters(pos->x, pos->y);
+    bodyDef.isBullet = true; // Enable continuous collision detection
+
+    b2BodyId bodyId = b2CreateBody(worldId, &bodyDef);
+
+    // Create small circle shape for bullet
+    b2Circle circle = {{0, 0}, 2.0f * METERS_PER_PIXEL};
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+    shapeDef.density = 0.1f;
+    shapeDef.isSensor = true; // Bullets are sensors for collision detection
+
+    b2CreateCircleShape(bodyId, &shapeDef, &circle);
+
+    entityBodies[entity] = bodyId;
+    
+    std::cout << "[PhysicsSystem] Created bullet body for entity " << entity << std::endl;
 }
 
 void PhysicsSystem::createObstacleBody(Entity entity)
 {
-    // Stub implementation
+    Position *pos = getComponent<Position>(entity);
+    Renderable *renderable = getComponent<Renderable>(entity);
+    if (!pos || !renderable)
+        return;
+
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position = pixelsToMeters(pos->x, pos->y);
+
+    b2BodyId bodyId = b2CreateBody(worldId, &bodyDef);
+
+    // Create box shape for obstacle
+    b2Polygon box = b2MakeBox(
+        renderable->width * 0.5f * METERS_PER_PIXEL,
+        renderable->height * 0.5f * METERS_PER_PIXEL
+    );
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+    shapeDef.density = 2.0f;
+
+    b2CreatePolygonShape(bodyId, &shapeDef, &box);
+
+    entityBodies[entity] = bodyId;
+    
+    std::cout << "[PhysicsSystem] Created obstacle body for entity " << entity << std::endl;
 }
 
 void PhysicsSystem::syncECSToPhysics()
 {
-    // Stub implementation
+    for (Entity entity : entities)
+    {
+        auto bodyIt = entityBodies.find(entity);
+        if (bodyIt == entityBodies.end())
+            continue;
+
+        b2BodyId bodyId = bodyIt->second;
+        Position *pos = getComponent<Position>(entity);
+        Velocity *vel = getComponent<Velocity>(entity);
+
+        if (pos)
+        {
+            b2Vec2 position = pixelsToMeters(pos->x, pos->y);
+            b2Rot rotation = b2MakeRot(0.0f); // No rotation for top-down
+            b2Body_SetTransform(bodyId, position, rotation);
+        }
+
+        if (vel)
+        {
+            b2Vec2 velocity = {vel->x * METERS_PER_PIXEL, vel->y * METERS_PER_PIXEL};
+            b2Body_SetLinearVelocity(bodyId, velocity);
+        }
+    }
 }
 
 void PhysicsSystem::syncPhysicsToECS()
 {
-    // Stub implementation
+    for (Entity entity : entities)
+    {
+        auto bodyIt = entityBodies.find(entity);
+        if (bodyIt == entityBodies.end())
+            continue;
+
+        b2BodyId bodyId = bodyIt->second;
+        Position *pos = getComponent<Position>(entity);
+        Velocity *vel = getComponent<Velocity>(entity);
+
+        if (pos)
+        {
+            b2Vec2 position = b2Body_GetPosition(bodyId);
+            metersToPixels(position, pos->x, pos->y);
+        }
+
+        if (vel)
+        {
+            b2Vec2 velocity = b2Body_GetLinearVelocity(bodyId);
+            vel->x = velocity.x * PIXELS_PER_METER;
+            vel->y = velocity.y * PIXELS_PER_METER;
+        }
+    }
 }
 
 void PhysicsSystem::handleCollisions()
