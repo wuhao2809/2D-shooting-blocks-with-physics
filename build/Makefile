@@ -129,6 +129,126 @@ TopDownShooter/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/build
 .PHONY : TopDownShooter/fast
 
+src/core/Blackboard.o: src/core/Blackboard.cpp.o
+.PHONY : src/core/Blackboard.o
+
+# target to build an object file
+src/core/Blackboard.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/Blackboard.cpp.o
+.PHONY : src/core/Blackboard.cpp.o
+
+src/core/Blackboard.i: src/core/Blackboard.cpp.i
+.PHONY : src/core/Blackboard.i
+
+# target to preprocess a source file
+src/core/Blackboard.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/Blackboard.cpp.i
+.PHONY : src/core/Blackboard.cpp.i
+
+src/core/Blackboard.s: src/core/Blackboard.cpp.s
+.PHONY : src/core/Blackboard.s
+
+# target to generate assembly for a file
+src/core/Blackboard.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/Blackboard.cpp.s
+.PHONY : src/core/Blackboard.cpp.s
+
+src/core/GameEngine.o: src/core/GameEngine.cpp.o
+.PHONY : src/core/GameEngine.o
+
+# target to build an object file
+src/core/GameEngine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/GameEngine.cpp.o
+.PHONY : src/core/GameEngine.cpp.o
+
+src/core/GameEngine.i: src/core/GameEngine.cpp.i
+.PHONY : src/core/GameEngine.i
+
+# target to preprocess a source file
+src/core/GameEngine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/GameEngine.cpp.i
+.PHONY : src/core/GameEngine.cpp.i
+
+src/core/GameEngine.s: src/core/GameEngine.cpp.s
+.PHONY : src/core/GameEngine.s
+
+# target to generate assembly for a file
+src/core/GameEngine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/GameEngine.cpp.s
+.PHONY : src/core/GameEngine.cpp.s
+
+src/core/Manager.o: src/core/Manager.cpp.o
+.PHONY : src/core/Manager.o
+
+# target to build an object file
+src/core/Manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/Manager.cpp.o
+.PHONY : src/core/Manager.cpp.o
+
+src/core/Manager.i: src/core/Manager.cpp.i
+.PHONY : src/core/Manager.i
+
+# target to preprocess a source file
+src/core/Manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/Manager.cpp.i
+.PHONY : src/core/Manager.cpp.i
+
+src/core/Manager.s: src/core/Manager.cpp.s
+.PHONY : src/core/Manager.s
+
+# target to generate assembly for a file
+src/core/Manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/core/Manager.cpp.s
+.PHONY : src/core/Manager.cpp.s
+
+src/gameplay/ShootingSystem.o: src/gameplay/ShootingSystem.cpp.o
+.PHONY : src/gameplay/ShootingSystem.o
+
+# target to build an object file
+src/gameplay/ShootingSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.o
+.PHONY : src/gameplay/ShootingSystem.cpp.o
+
+src/gameplay/ShootingSystem.i: src/gameplay/ShootingSystem.cpp.i
+.PHONY : src/gameplay/ShootingSystem.i
+
+# target to preprocess a source file
+src/gameplay/ShootingSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.i
+.PHONY : src/gameplay/ShootingSystem.cpp.i
+
+src/gameplay/ShootingSystem.s: src/gameplay/ShootingSystem.cpp.s
+.PHONY : src/gameplay/ShootingSystem.s
+
+# target to generate assembly for a file
+src/gameplay/ShootingSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/gameplay/ShootingSystem.cpp.s
+.PHONY : src/gameplay/ShootingSystem.cpp.s
+
+src/input/InputSystem.o: src/input/InputSystem.cpp.o
+.PHONY : src/input/InputSystem.o
+
+# target to build an object file
+src/input/InputSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/input/InputSystem.cpp.o
+.PHONY : src/input/InputSystem.cpp.o
+
+src/input/InputSystem.i: src/input/InputSystem.cpp.i
+.PHONY : src/input/InputSystem.i
+
+# target to preprocess a source file
+src/input/InputSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/input/InputSystem.cpp.i
+.PHONY : src/input/InputSystem.cpp.i
+
+src/input/InputSystem.s: src/input/InputSystem.cpp.s
+.PHONY : src/input/InputSystem.s
+
+# target to generate assembly for a file
+src/input/InputSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/input/InputSystem.cpp.s
+.PHONY : src/input/InputSystem.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -153,6 +273,102 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/map/MapSystem.o: src/map/MapSystem.cpp.o
+.PHONY : src/map/MapSystem.o
+
+# target to build an object file
+src/map/MapSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.o
+.PHONY : src/map/MapSystem.cpp.o
+
+src/map/MapSystem.i: src/map/MapSystem.cpp.i
+.PHONY : src/map/MapSystem.i
+
+# target to preprocess a source file
+src/map/MapSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.i
+.PHONY : src/map/MapSystem.cpp.i
+
+src/map/MapSystem.s: src/map/MapSystem.cpp.s
+.PHONY : src/map/MapSystem.s
+
+# target to generate assembly for a file
+src/map/MapSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/map/MapSystem.cpp.s
+.PHONY : src/map/MapSystem.cpp.s
+
+src/movement/MovementSystem.o: src/movement/MovementSystem.cpp.o
+.PHONY : src/movement/MovementSystem.o
+
+# target to build an object file
+src/movement/MovementSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.o
+.PHONY : src/movement/MovementSystem.cpp.o
+
+src/movement/MovementSystem.i: src/movement/MovementSystem.cpp.i
+.PHONY : src/movement/MovementSystem.i
+
+# target to preprocess a source file
+src/movement/MovementSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.i
+.PHONY : src/movement/MovementSystem.cpp.i
+
+src/movement/MovementSystem.s: src/movement/MovementSystem.cpp.s
+.PHONY : src/movement/MovementSystem.s
+
+# target to generate assembly for a file
+src/movement/MovementSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/movement/MovementSystem.cpp.s
+.PHONY : src/movement/MovementSystem.cpp.s
+
+src/rendering/Renderer.o: src/rendering/Renderer.cpp.o
+.PHONY : src/rendering/Renderer.o
+
+# target to build an object file
+src/rendering/Renderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.o
+.PHONY : src/rendering/Renderer.cpp.o
+
+src/rendering/Renderer.i: src/rendering/Renderer.cpp.i
+.PHONY : src/rendering/Renderer.i
+
+# target to preprocess a source file
+src/rendering/Renderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.i
+.PHONY : src/rendering/Renderer.cpp.i
+
+src/rendering/Renderer.s: src/rendering/Renderer.cpp.s
+.PHONY : src/rendering/Renderer.s
+
+# target to generate assembly for a file
+src/rendering/Renderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/Renderer.cpp.s
+.PHONY : src/rendering/Renderer.cpp.s
+
+src/rendering/RenderingSystem.o: src/rendering/RenderingSystem.cpp.o
+.PHONY : src/rendering/RenderingSystem.o
+
+# target to build an object file
+src/rendering/RenderingSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.o
+.PHONY : src/rendering/RenderingSystem.cpp.o
+
+src/rendering/RenderingSystem.i: src/rendering/RenderingSystem.cpp.i
+.PHONY : src/rendering/RenderingSystem.i
+
+# target to preprocess a source file
+src/rendering/RenderingSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.i
+.PHONY : src/rendering/RenderingSystem.cpp.i
+
+src/rendering/RenderingSystem.s: src/rendering/RenderingSystem.cpp.s
+.PHONY : src/rendering/RenderingSystem.s
+
+# target to generate assembly for a file
+src/rendering/RenderingSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TopDownShooter.dir/build.make CMakeFiles/TopDownShooter.dir/src/rendering/RenderingSystem.cpp.s
+.PHONY : src/rendering/RenderingSystem.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +378,36 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TopDownShooter"
+	@echo "... src/core/Blackboard.o"
+	@echo "... src/core/Blackboard.i"
+	@echo "... src/core/Blackboard.s"
+	@echo "... src/core/GameEngine.o"
+	@echo "... src/core/GameEngine.i"
+	@echo "... src/core/GameEngine.s"
+	@echo "... src/core/Manager.o"
+	@echo "... src/core/Manager.i"
+	@echo "... src/core/Manager.s"
+	@echo "... src/gameplay/ShootingSystem.o"
+	@echo "... src/gameplay/ShootingSystem.i"
+	@echo "... src/gameplay/ShootingSystem.s"
+	@echo "... src/input/InputSystem.o"
+	@echo "... src/input/InputSystem.i"
+	@echo "... src/input/InputSystem.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/map/MapSystem.o"
+	@echo "... src/map/MapSystem.i"
+	@echo "... src/map/MapSystem.s"
+	@echo "... src/movement/MovementSystem.o"
+	@echo "... src/movement/MovementSystem.i"
+	@echo "... src/movement/MovementSystem.s"
+	@echo "... src/rendering/Renderer.o"
+	@echo "... src/rendering/Renderer.i"
+	@echo "... src/rendering/Renderer.s"
+	@echo "... src/rendering/RenderingSystem.o"
+	@echo "... src/rendering/RenderingSystem.i"
+	@echo "... src/rendering/RenderingSystem.s"
 .PHONY : help
 
 

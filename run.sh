@@ -17,5 +17,10 @@ cmake ..
 # Build the project
 make
 
-# Run the game
-./TopDownShooter 
+cd ..
+
+# Set DYLD_LIBRARY_PATH for SDL3 (Homebrew)
+export DYLD_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_LIBRARY_PATH
+
+# Run the game from the root directory so gamedata.json is found
+./build/TopDownShooter 
