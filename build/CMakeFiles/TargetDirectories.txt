@@ -1,3 +1,0 @@
-/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles/TopDownShooter.dir
-/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles/edit_cache.dir
-/Users/haowu/Desktop/code/projects/2d_shooting_game_with_obstacles/build/CMakeFiles/rebuild_cache.dir
