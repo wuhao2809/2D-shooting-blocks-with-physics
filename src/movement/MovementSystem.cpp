@@ -26,12 +26,12 @@ void MovementSystem::update(float dt)
     // Update all entities with Position and Velocity components
     for (Entity entity : entities)
     {
-        updateEntityPosition(entity, dt);
+        applyVelocityEffects(entity, dt);
         applyBoundaryConstraints(entity);
     }
 }
 
-void MovementSystem::updateEntityPosition(Entity entity, float dt)
+void MovementSystem::applyVelocityEffects(Entity entity, float dt)
 {
     Position *pos = getComponent<Position>(entity);
     Velocity *vel = getComponent<Velocity>(entity);
@@ -39,9 +39,8 @@ void MovementSystem::updateEntityPosition(Entity entity, float dt)
     if (!pos || !vel)
         return;
 
-    // Update position based on velocity
-    pos->x += vel->x * dt;
-    pos->y += vel->y * dt;
+    // Position updates are now handled by PhysicsSystem only
+    // This system only handles velocity modifications (friction/damping)
 
     // Apply friction/damping for non-bullet entities
     Bullet *bullet = getComponent<Bullet>(entity);
@@ -63,24 +62,26 @@ void MovementSystem::updateEntityPosition(Entity entity, float dt)
 void MovementSystem::applyBoundaryConstraints(Entity entity)
 {
     Position *pos = getComponent<Position>(entity);
-    if (!pos)
+    Velocity *vel = getComponent<Velocity>(entity);
+    if (!pos || !vel)
         return;
 
-    // Check if entity is a player or bullet for different boundary rules
+    // Check if entity is a player for velocity-based boundary constraints
     Input *input = getComponent<Input>(entity);
     Bullet *bullet = getComponent<Bullet>(entity);
 
     if (input && input->controllable)
     {
-        // Player boundary constraints (stay within screen)
-        if (pos->x < 0)
-            pos->x = 0;
-        if (pos->y < 0)
-            pos->y = 0;
-        if (pos->x > 800 - 32)
-            pos->x = 800 - 32; // 32 is player width
-        if (pos->y > 600 - 32)
-            pos->y = 600 - 32; // 32 is player height
+        // Player boundary constraints - prevent velocity that would move player out of bounds
+        // Position constraints are now handled by PhysicsSystem
+        if (pos->x <= 0 && vel->x < 0)
+            vel->x = 0; // Stop leftward movement at left edge
+        if (pos->y <= 0 && vel->y < 0)
+            vel->y = 0; // Stop upward movement at top edge
+        if (pos->x >= 800 - 32 && vel->x > 0)
+            vel->x = 0; // Stop rightward movement at right edge (32 is player width)
+        if (pos->y >= 600 - 32 && vel->y > 0)
+            vel->y = 0; // Stop downward movement at bottom edge (32 is player height)
     }
     else if (bullet)
     {

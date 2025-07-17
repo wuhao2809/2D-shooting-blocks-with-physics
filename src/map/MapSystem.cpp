@@ -16,26 +16,8 @@ void MapSystem::update(float dt)
     if (!mapLoaded)
         return;
 
-    // Check for collision events from physics system
-    if (blackboard && blackboard->has("collision_event") && blackboard->getValue<bool>("collision_event"))
-    {
-        Entity bullet = blackboard->getValue<Entity>("collision_bullet");
-        Entity obstacle = blackboard->getValue<Entity>("collision_obstacle");
-
-        // Apply impulse to obstacle when hit by bullet
-        if (blackboard)
-        {
-            blackboard->setValue("physics_impulse_entity", obstacle);
-            blackboard->setValue("physics_impulse_x", 100.0f); // Impulse strength
-            blackboard->setValue("physics_impulse_y", 0.0f);
-            blackboard->setValue("physics_impulse_request", true);
-        }
-
-        // Clear collision event
-        blackboard->setValue("collision_event", false);
-
-        std::cout << "[MapSystem] Obstacle " << obstacle << " hit by bullet " << bullet << std::endl;
-    }
+    // MapSystem doesn't need to handle collision events - PhysicsSystem handles them completely
+    // This method is now essentially empty but kept for potential future map-specific logic
 }
 
 bool MapSystem::loadMap(const std::string &mapFile)
@@ -108,7 +90,8 @@ void MapSystem::createObstacle(float x, float y, float width, float height, int 
     Renderable renderable;
     renderable.width = width;
     renderable.height = height;
-    renderable.color = "brown"; // Use string color for now
+    // Use the actual color from map data instead of hardcoded "brown"
+    renderable.color = "obstacle"; // Could be enhanced to use RGB values
     addComponent(obstacle, renderable);
 
     // Add Velocity component for physics

@@ -118,16 +118,16 @@ InputSystem::update()
 MovementSystem::update()
   → Reads blackboard movement request
   → Updates entity's Velocity component
-  → Calls updateEntityPosition() for all entities
-  → Applies boundary constraints
+  → Calls applyVelocityEffects() for all entities (friction/damping)
+  → Applies velocity-based boundary constraints
   ↓
 PhysicsSystem::syncECSToPhysics()
-  → Reads ECS Position/Velocity components
-  → Updates Box2D body positions and velocities
+  → Reads ECS Velocity components
+  → Updates Box2D body velocities
   ↓
 PhysicsSystem::syncPhysicsToECS()
   → Reads Box2D body states
-  → Updates ECS Position/Velocity components
+  → **Updates ECS Position components** (single source of truth)
 ```
 
 ### Key Functions
@@ -142,15 +142,32 @@ PhysicsSystem::syncPhysicsToECS()
   - Direction calculation (0-360 degrees)
   - Fire rate limiting
 
-#### MovementSystem::update()
+#### MovementSystem::update() (**UPDATED ARCHITECTURE** ✅)
 
-- **Purpose**: Processes movement requests and updates entity positions
+- **Purpose**: Processes movement requests and applies velocity effects
 - **Input**: Blackboard movement requests
-- **Output**: Updated Position and Velocity components
+- **Output**: Updated Velocity components only
 - **Features**:
-  - Friction/damping for smooth movement
-  - Boundary constraints for player
-  - Different rules for bullets vs. player
+  - **No longer updates positions** - PhysicsSystem handles all position updates
+  - Applies friction/damping to non-bullet entities
+  - Velocity-based boundary constraints for player
+
+### **Clean Architecture Benefits** ✅
+
+The updated architecture now follows a **single responsibility principle**:
+
+| System              | Responsibility                                           |
+| ------------------- | -------------------------------------------------------- |
+| **InputSystem**     | Captures user input → velocity requests                  |
+| **MovementSystem**  | Processes velocity requests → modifies velocity          |
+| **PhysicsSystem**   | Velocity → position integration (single source of truth) |
+| **RenderingSystem** | Positions → visual display                               |
+
+**Key Improvement**: Eliminates duplicate position calculations and ensures physics is the authoritative source for all position updates.
+
+- Friction/damping for smooth movement
+- Boundary constraints for player
+- Different rules for bullets vs. player
 
 ---
 

@@ -1,0 +1,74 @@
+# Build directories
+build/
+bin/
+obj/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Compiled binaries
+TopDownShooter
+sdl3_test
+*.exe
+*.out
+*.app
+
+# Object files
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.libs
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# Static libraries
+*.a
+*.lib
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Dependencies
+third_party/*/build/
+third_party/*/bin/
+
+# Package managers
+node_modules/
+*.tgz
+*.tar.gz

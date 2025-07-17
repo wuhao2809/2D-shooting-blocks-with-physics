@@ -12,6 +12,6 @@ public:
     void update(float dt) override;
 
 private:
-    void updateEntityPosition(Entity entity, float dt);
+    void applyVelocityEffects(Entity entity, float dt);
     void applyBoundaryConstraints(Entity entity);
 };
