@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cmath>
+#include <SDL3/SDL.h>
 
 PhysicsSystem::PhysicsSystem(Manager *mgr) : manager(mgr)
 {
@@ -272,6 +273,20 @@ void PhysicsSystem::handleCollisions()
         if (!playerPos)
             continue;
 
+        // Get or create collision cooldown component
+        CollisionCooldown *cooldown = getComponent<CollisionCooldown>(player);
+        if (!cooldown)
+        {
+            CollisionCooldown newCooldown;
+            addComponent(player, newCooldown);
+            cooldown = getComponent<CollisionCooldown>(player);
+        }
+
+        // Check if still in cooldown period
+        float currentTime = SDL_GetTicks() / 1000.0f; // Convert to seconds
+        if (currentTime - cooldown->lastCollisionTime < cooldown->cooldownDuration)
+            continue;
+
         for (Entity obstacle : entities)
         {
             if (player == obstacle ||
@@ -285,15 +300,17 @@ void PhysicsSystem::handleCollisions()
             if (!obstaclePos || !obstacleRend)
                 continue;
 
-            // Simple bounding box collision check (player is 32x32, obstacle varies)
-            float dx = playerPos->x - obstaclePos->x;
-            float dy = playerPos->y - obstaclePos->y;
+            // More precise bounding box collision check (player is 32x32, obstacle varies)
+            float dx = abs(playerPos->x - obstaclePos->x);
+            float dy = abs(playerPos->y - obstaclePos->y);
             float playerHalfSize = 16.0f; // Player is 32x32, so half is 16
 
-            if (abs(dx) < (playerHalfSize + obstacleRend->width / 2) &&
-                abs(dy) < (playerHalfSize + obstacleRend->height / 2))
+            if (dx < (playerHalfSize + obstacleRend->width / 2) &&
+                dy < (playerHalfSize + obstacleRend->height / 2))
             {
                 handlePlayerObstacleCollision(player, obstacle);
+                cooldown->lastCollisionTime = currentTime;
+                break; // Only handle one collision per frame per player
             }
         }
     }
@@ -351,30 +368,59 @@ void PhysicsSystem::handlePlayerObstacleCollision(Entity player, Entity obstacle
     Position *obstaclePos = getComponent<Position>(obstacle);
     Velocity *playerVel = getComponent<Velocity>(player);
     Velocity *obstacleVel = getComponent<Velocity>(obstacle);
+    Renderable *obstacleRend = getComponent<Renderable>(obstacle);
 
-    if (!playerPos || !obstaclePos || !playerVel || !obstacleVel)
+    if (!playerPos || !obstaclePos || !playerVel || !obstacleVel || !obstacleRend)
         return;
 
-    // Calculate collision direction (from obstacle to player)
-    float dx = playerPos->x - obstaclePos->x;
-    float dy = playerPos->y - obstaclePos->y;
-    float distance = sqrt(dx * dx + dy * dy);
+    // Calculate overlap amounts
+    float playerHalfSize = 16.0f; // Player is 32x32
+    float overlapX = (playerHalfSize + obstacleRend->width / 2) - abs(playerPos->x - obstaclePos->x);
+    float overlapY = (playerHalfSize + obstacleRend->height / 2) - abs(playerPos->y - obstaclePos->y);
 
-    if (distance > 0)
+    if (overlapX > 0 && overlapY > 0)
     {
-        // Normalize direction
-        dx /= distance;
-        dy /= distance;
+        // Determine separation direction based on smallest overlap
+        float separationX = 0.0f, separationY = 0.0f;
 
-        // Apply impulse to player (knockback effect)
-        float knockbackStrength = 150.0f;
-        playerVel->x += dx * knockbackStrength;
-        playerVel->y += dy * knockbackStrength;
+        if (overlapX < overlapY)
+        {
+            // Separate horizontally
+            separationX = (playerPos->x > obstaclePos->x) ? overlapX : -overlapX;
+        }
+        else
+        {
+            // Separate vertically
+            separationY = (playerPos->y > obstaclePos->y) ? overlapY : -overlapY;
+        }
 
-        // Apply smaller counter-impulse to obstacle
-        float obstacleImpulse = 50.0f;
-        obstacleVel->x -= dx * obstacleImpulse;
-        obstacleVel->y -= dy * obstacleImpulse;
+        // Immediately separate positions to prevent overlap
+        playerPos->x += separationX * 0.6f;   // Player takes 60% of separation
+        obstaclePos->x -= separationX * 0.4f; // Obstacle takes 40% of separation
+        playerPos->y += separationY * 0.6f;
+        obstaclePos->y -= separationY * 0.4f;
+
+        // Calculate collision direction (from obstacle to player)
+        float dx = playerPos->x - obstaclePos->x;
+        float dy = playerPos->y - obstaclePos->y;
+        float distance = sqrt(dx * dx + dy * dy);
+
+        if (distance > 0)
+        {
+            // Normalize direction
+            dx /= distance;
+            dy /= distance;
+
+            // Apply velocity impulses (reduced since we now have position separation)
+            float knockbackStrength = 100.0f; // Reduced from 150.0f
+            playerVel->x += dx * knockbackStrength;
+            playerVel->y += dy * knockbackStrength;
+
+            // Apply smaller counter-impulse to obstacle
+            float obstacleImpulse = 30.0f; // Reduced from 50.0f
+            obstacleVel->x -= dx * obstacleImpulse;
+            obstacleVel->y -= dy * obstacleImpulse;
+        }
 
         // Post player collision event to blackboard
         if (blackboard)
@@ -384,7 +430,8 @@ void PhysicsSystem::handlePlayerObstacleCollision(Entity player, Entity obstacle
             blackboard->setValue("player_collision_obstacle", obstacle);
         }
 
-        std::cout << "[PhysicsSystem] Player " << player << " collided with obstacle " << obstacle << std::endl;
+        std::cout << "[PhysicsSystem] Player " << player << " collided with obstacle " << obstacle
+                  << " (separation: " << separationX << ", " << separationY << ")" << std::endl;
     }
 }
 

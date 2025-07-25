@@ -63,3 +63,12 @@ struct Velocity
   float x = 0.0f;
   float y = 0.0f;
 };
+
+/**
+ * @brief Collision cooldown component to prevent continuous collision responses.
+ */
+struct CollisionCooldown
+{
+  float lastCollisionTime = 0.0f;
+  float cooldownDuration = 0.2f; // 200ms cooldown between collisions
+};
